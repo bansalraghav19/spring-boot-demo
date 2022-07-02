@@ -1,13 +1,12 @@
 package com.amz.demo.controllers;
 
+import com.amz.demo.exceptions.AlienNotFound;
 import com.amz.demo.models.Alien;
 import com.amz.demo.services.AlienService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,6 +19,11 @@ public class AlienController {
   @GetMapping("/aliens")
   public List<Alien> getAliens() {
     return alienService.getAllAliens();
+  }
+
+  @GetMapping("/alien/{id}")
+  public ResponseEntity<Alien> getAlienById(@PathVariable("id") int alienId) throws AlienNotFound {
+    return ResponseEntity.ok(alienService.getAlienById(alienId));
   }
 
   @PostMapping(value = "/addAlien", consumes = "application/json")
